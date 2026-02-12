@@ -19,3 +19,7 @@ with open(snakemake.output.special_codon, 'w') as f:
     f.write(codon_list[ith_slice])
     f.write('\n')
     f.close()
+
+with open(snakemake.output.amino_acid_file, 'w') as f:
+    f.write(Seq.Seq(codon_list[ith_slice]).translate())
+    f.close()
