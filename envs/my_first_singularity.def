@@ -1,0 +1,28 @@
+Bootstrap: docker
+From: condaforge/miniforge3
+
+%environment
+    export LC_ALL=en_US.utf-8
+    export LANG=en_US.utf-8
+    export LANGUAGE=en_US.UTF-8
+    export BASH_ENV=/opt/etc/bashrc
+    source /opt/etc/bashrc
+%files
+    /data/catchingba/VSCode_class/envs/my_first_conda.yml
+%post
+    apt-get -y update
+    apt-get install -y locales locales-all
+
+    mkdir -p opt/etc
+    ENVNAME='my_first_conda'
+
+    conda env create -f /data/catchingba/VSCode_class/envs/my_first_conda.yml \
+
+    echo "#! /bin/bash\n# script to activate the conda environment" > ~/.bashrc
+    conda init bash
+    echo "echo \"Activating ${ENVNAME}\"" >> ~/.bashrc
+    echo "\nconda activate ${ENVNAME}" >> ~/.bashrc
+
+    cp ~/.bashrc /opt/etc/bashrc
+
+    exec /bin/bash "$@"

@@ -9,7 +9,7 @@ rule fastqc:
     shell:
         """
         module load fastqc
-        fastqc --output={input.input_dir} {output.output_dir}
+        fastqc --output={output.output_dir} {input.input_dir}
         """
 
 rule return_codon:
@@ -17,6 +17,9 @@ rule return_codon:
         nucs = ['A', 'T', 'C', 'G'],
         ith_slice = '9'
     output:
-        special_codon = work_dir+'/data/codon_list.txt'
+        special_codon = work_dir+'/data/codon_list.txt',
+        amino_acid_file = work_dir+'/data/amino_acid.txt'
+    singularity:
+        'envs/my_first_singularity.sif'
     script:
         work_dir+'/scripts/return_codon.py'

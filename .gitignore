@@ -13,3 +13,4 @@ logs
 
 # Ignore snakemake_profiles
 snakemake_profile
+envs/*.sif
