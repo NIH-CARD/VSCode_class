@@ -13,4 +13,4 @@ git clone https://github.com/NIH-HPC/snakemake_profile.git
 module load singularity
 
 # Run snakemake
-snakemake --profile snakemake_profile --use-singularity
+snakemake --profile snakemake_profile --use-singularity return_codon
