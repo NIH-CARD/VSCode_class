@@ -1,3 +1,6 @@
 # Ignore all notebooks
 notebook
 notebook/*
+
+# Ignore snakemake logs
+log
