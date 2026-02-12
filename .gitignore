@@ -7,3 +7,6 @@ log
 
 # Ignore snakemake
 .snakemake
+
+# Ignore logs
+logs
