@@ -10,3 +10,6 @@ log
 
 # Ignore logs
 logs
+
+# Ignore snakemake_profiles
+snakemake_profile
