@@ -19,7 +19,14 @@ Go through the list of getting started actions, in part to familiarize yourself 
 
 ![VSCode layout](images/VSCode_layout.png)
 
+I recommend exploring VSCode by hovering over the many icons and reading the documentation on the [VSCode website](https://code.visualstudio.com/docs). But for now the main icons to use are:
 
+1. Folders
+2. Source (version) control
+3. Extensions
+4. Terminal
+
+Click on the Folders icon to open a folder you have access to. From there you can create new folders by using `ctrl-option-cmd-n`/`ctrl-alt-windows-n`, where a dropdown menu will give options for the new file. You can also open the terminal and use bash to `mkdir -p new_file`.
 
 ## VSCode extensions 
 
@@ -37,8 +44,4 @@ By typing into the search bar on top you can find different packages to install.
 - Snakemake language
 - Apptainer/Singularity
 
-Once the 
-
-## Creating a new file
-
-## Working with GitHub
+This will let you use [Python](python_intro.md), [Anaconda](anaconda.md), Jupyter, [Github](github.md), [Snakemake], and [Singularity](singularity_page.md) for the rest of this class.
