@@ -67,7 +67,7 @@ Build the image through SyLabs by typing:
 
 ## Save and use other containers with Apptainer
 
-To remotely save your containers online, we can't use GitHub due to the size of these files. Instead, we use (Quay.io)[https://quay.io/]. Login, make an account, and we can then save our containers remotely.
+To remotely save your containers online, we can't use GitHub due to the size of these files. Instead, we use [Quay.io](https://quay.io/). Login, make an account, and we can then save our containers remotely.
 
 ![Apptainer](images/apptainer.png)
 

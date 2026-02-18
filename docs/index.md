@@ -18,7 +18,7 @@ As publically funded researchers, we have an obligation for our results to be as
 0. [Introduction](index.md)
 1. [Biowulf](biowulf.md)
 2. [VSCode](vscode.md)
-3. [Python](python.md)
+3. [Python](python_intro.md)
 4. [Anaconda](anaconda.md)
 5. [GitHub](github.md) 
 6. [Snakemake](snakemake.md) 
