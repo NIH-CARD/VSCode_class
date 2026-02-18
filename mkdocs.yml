@@ -6,11 +6,11 @@ theme:
   features:
     - navigation.indexes
 nav:
-  - 0. Introduction: https://vscode-class.readthedocs.io/en/latest/
+  - 0. Introduction: index.md
   - 1. Biowulf: https://vscode-class.readthedocs.io/en/latest/biowulf/
   - 2. VSCode: https://vscode-class.readthedocs.io/en/latest/vscode/
   - 3. Anaconda: https://vscode-class.readthedocs.io/en/latest/anaconda/
   - 4. Python: https://vscode-class.readthedocs.io/en/latest/python_intro/
-  - 5. GitHub: https://vscode-class.readthedocs.io/github
-  - 6. Snakemake: snakemake.md
+  - 5. GitHub: github.md
+  - 6. Snakemake: docs/snakemake.md
   - 7. Singularity: singularity_page
