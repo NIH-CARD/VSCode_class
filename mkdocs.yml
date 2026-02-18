@@ -2,19 +2,7 @@ site_name: VSCode Class
 site_author: Adam Catching
 
 theme:
-  name: readthedocs
-  palette: 
-    # Palette toggle for light mode
-    - scheme: default
-      toggle:
-        icon: material/brightness-4 
-        name: Switch to light mode
-
-    # Palette toggle for dark mode
-    - scheme: light
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+  name: readthedocs 
   features:
     - navigation.indexes
 nav:
