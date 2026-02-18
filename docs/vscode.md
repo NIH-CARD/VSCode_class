@@ -44,4 +44,4 @@ By typing into the search bar on top you can find different packages to install.
 - Snakemake language
 - Apptainer/Singularity
 
-This will let you use [Python](python_intro.md), [Anaconda](anaconda.md), Jupyter, [Github](github.md), [Snakemake], and [Singularity](singularity_page.md) for the rest of this class.
+This will let you use [Python](python_intro.md), [Anaconda](anaconda.md), Jupyter, [Github](github.md), [Snakemake](snakemake.md), and [Singularity](singularity_page.md) for the rest of this class.
