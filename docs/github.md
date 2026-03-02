@@ -1,16 +1,17 @@
 # GitHub
 
-Whether you are just starting out in programming/bioinformatics, have been coding a while, or can remember [when C++ first came out](https://www.stroustrup.com/bs_faq.html#invention), GitHub should be
+Whether you are just starting out in programming/bioinformatics, have been coding a while, or can remember [when C++ first came out](https://www.stroustrup.com/bs_faq.html#invention), GitHub should be where you are storing your code in a version-controlled manner. Don't feel like everyone will immediately see every changes you make, as your repositories can be made private, or you can use Git locally and never save your code online. But if you want your bioinformatic abilities to be recognized by other scientists, GitHub is where they will look. 
 
 ## Logging in
 
-<img src="images/GitHub_splash.png" 
-        alt="Picture" 
-        width="50%" 
-        style="display: block; margin: 0 auto" />
+![Github_splash](images/GitHub_splash.png){ width=20px }
 
+Go to [GitHub.com](https://www.github.com) and sign up with an account (unless you plan on using your account for NIH work, then see the next section). Create a new account with a unique name. It is wise to turn on two factor authentication since you will be using this account on Biowulf. 
 
-Go to [GitHub.com](https://www.github.com) and sign up with an account (unless you plan on using your account for NIH work, then see the next section). Create a new account with a unique name. 
+To log into your account on Biowulf first get a VSCode session running, then click on the profile icon at the bottom right of the screen, right about the settings icon. From there you can login and now track, push, and pull updates from where you work on projects. You may need to access GitHub from terminal as well; connect your account to your actions in VSCode with:
+
+`git config --global user.name "Your Username"`  
+`git config --global user.email "your_email@example.com"`
 
 ## Connect NIH email to existing account
 
@@ -18,11 +19,16 @@ NIH employees, fellows, and contractors have access to GitHub via the [STRIDES I
 
 ## Create your first repo
 
+To create a repository, first navigate to your or your organization's GitHub web account. For example, I work with NIA-CARD, so I will build repositories through the (NIA-CARD organization page)[https://github.com/NIH-CARD]. For either your account or an organization, create a new repository by clicking the green *New* button.
 
+![Org_repo](images/GitHub_CARD.png)
+
+This will take you to 
 
 ### NIH license
 
-```PUBLIC DOMAIN NOTICE
+```
+PUBLIC DOMAIN NOTICE
 
 National Institute on Aging 
 
