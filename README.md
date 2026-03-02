@@ -14,11 +14,11 @@ As publically funded researchers, we have an obligation for our results to be as
 
 ## Sections
 
-0. [Introduction](index.md)
-1. [Biowulf](biowulf.md)
-2. [VSCode](vscode.md)
-3. [Python](python_intro.md)
-4. [Anaconda](anaconda.md)
-5. [GitHub](github.md) 
-6. [Snakemake](snakemake.md) 
-7. [Singularity](singularity_page.md) 
+0. [Introduction](docs/index.md)
+1. [Biowulf](docs/biowulf.md)
+2. [VSCode](docs/vscode.md)
+3. [Python](docs/python_intro.md)
+4. [Anaconda](docs/anaconda.md)
+5. [GitHub](docs/github.md) 
+6. [Snakemake](docs/snakemake.md) 
+7. [Singularity](docs/singularity_page.md) 
