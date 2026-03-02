@@ -2,6 +2,8 @@
 
 Whether you are just starting out in programming/bioinformatics, have been coding a while, or can remember [when C++ first came out](https://www.stroustrup.com/bs_faq.html#invention), GitHub should be where you are storing your code in a version-controlled manner. Don't feel like everyone will immediately see every changes you make, as your repositories can be made private, or you can use Git locally and never save your code online. But if you want your bioinformatic abilities to be recognized by other scientists, GitHub is where they will look. 
 
+For clarity, **Git** is the program that tracks local changes on your machine and interfaces with **GitHub** which is where changes are stored where others can see.
+
 ## Logging in
 
 ![Github_splash](images/GitHub_splash.png)
@@ -60,3 +62,54 @@ Although all reasonable efforts have been taken to ensure the accuracy and relia
 
 Please cite the authors in any work or product based on this material.
 ```
+
+## Pull repository 
+
+Once you have selected all of the options and selected *Create repository*, it now lives! However, it still only lives on GitHub and needs to be downloaded to your local machine to make changes. Go to the repository page and click on the green `Code` button. On the dropdown the first option is https with the link to your code. Copy the link and navigate back to VSCode. Open up terminal and navigate to the folder that will hold the repository (the folder that holds the my_first_repo folder). In terminal, now enter:
+
+`git clone https://github.com/your_account_or_org/repository_name.git`
+
+This will copy the GitHub account as it stands with the folder name the same as the repository name. Navigate into the folder and type
+
+`git status`
+
+It should reply with
+
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+Now you can start adding and changing files. You can do this from terminal, but we are using VSCode for it's ease of use, so instead click on the branched network icon on the left in VSCode (called "Source control"), where you can now add and pull changes. If you are interested, [here is a list of GitHub terminal commands](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://education.github.com/git-cheat-sheet-education.pdf).
+
+## Populate your repository
+
+Let's get our repository organized. Git doesn't track folders, just what's in them, so we have to make our folders locally then populate them with files to be tracked. For most bioinformatics, I recommend the folder structure:
+
+>**Repository**
+>- data
+>- envs (Anaconda, Singularity files)
+>- input (files that aren't quite raw data, e.g. metadata, reference files)
+>- figures
+>- notebook (Where Jupyter notebooks for each day)
+>- scripts 
+>
+>snakefile  
+>snakemake.sh  
+
+Files in figures and notebook shouldn't be tracked, as these intermediate files that are best for keeping track of your own progress. Most of the changes will be in **envs**, **input**, **scripts**, and editing the **Snakemake** files. For more information about **Snakemake** see the [Snakemake intro](snakemake.md). 
+
+## Add a change
+
+Adding these folders and files will result in any new files showing up in the "Source control", in this case **snakefile** and **snakemake.sh** should show up. Both files will show up under "Changes" once they are created or new changes are saved. Add them by clicking the plus on individual files or on the "Changes" section for all files to be tracked. They now show up in the "Staged Changes", where they can be removed by clicking the minus sign to unstage, or commit by typing in a summary about what you changed into the "Message" bar. All commits need a message that describe them to both track changes and to clarify what is different in this version. Once you have a message, click the blue "Commit" button. 
+
+Congrats! You have authored your first commit. Now let's share it with the world.
+
+## Push changes
+
+Pushing and pulling changes from GitHub to your local device is always easier if you are consistent and remember to commit each time you make a change. Pushing a change to GitHub is easy once all changes have been made
+
+## Add a branch
+
