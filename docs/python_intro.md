@@ -45,6 +45,8 @@ print('Hello world!')
     Hello world!
 
 
+When you run Juptyer notebook for the first time, it will ask for a Python kernel to use. Use the one we made in the [Anaconda](anaconda.md) section as it has packages installed that will be necessary in this section.
+
 `print` is actually a function, built-in to python and available in Python 3. There are many functions built into Python, which 
 
 
@@ -405,108 +407,9 @@ len(codon_table), codon_table[:5]
 
 
 
+### Using modules
 
-```python
-import my_functions
-```
-
-
-```python
-help(my_functions)
-```
-
-    Help on module my_functions:
-    
-    NAME
-        my_functions - # Define nucleotides
-    
-    FUNCTIONS
-        give_codon_table()
-    
-    DATA
-        nucs = ['A', 'T', 'C', 'G']
-    
-    FILE
-        /vf/users/CARD_singlecell/users/catchingba/VSCode/scripts/my_functions.py
-    
-    
-
-
-
-```python
-my_codon_table = my_functions.give_codon_table()
-len(my_codon_table), my_codon_table[:5]
-```
-
-
-
-
-    ['AAA',
-     'AAT',
-     'AAC',
-     'AAG',
-     'ATA',
-     'ATT',
-     'ATC',
-     'ATG',
-     'ACA',
-     'ACT',
-     'ACC',
-     'ACG',
-     'AGA',
-     'AGT',
-     'AGC',
-     'AGG',
-     'TAA',
-     'TAT',
-     'TAC',
-     'TAG',
-     'TTA',
-     'TTT',
-     'TTC',
-     'TTG',
-     'TCA',
-     'TCT',
-     'TCC',
-     'TCG',
-     'TGA',
-     'TGT',
-     'TGC',
-     'TGG',
-     'CAA',
-     'CAT',
-     'CAC',
-     'CAG',
-     'CTA',
-     'CTT',
-     'CTC',
-     'CTG',
-     'CCA',
-     'CCT',
-     'CCC',
-     'CCG',
-     'CGA',
-     'CGT',
-     'CGC',
-     'CGG',
-     'GAA',
-     'GAT',
-     'GAC',
-     'GAG',
-     'GTA',
-     'GTT',
-     'GTC',
-     'GTG',
-     'GCA',
-     'GCT',
-     'GCC',
-     'GCG',
-     'GGA',
-     'GGT',
-     'GGC',
-     'GGG']
-
-
+From a biology perspective, we know that the codons for the 0th and 3rd codons are different, but they both code for the same amino acid Lysine. In python we can define two variable are the same by using the **operator** `==` (like `+`, `-`, `=`, `<`, `>`), returning if it is the boolean value `True` or `False`.
 
 
 ```python
@@ -532,6 +435,8 @@ codon_list[3]
 
 
 
+Knowing these two strings are different, we see that comparing them results in `False`.
+
 
 ```python
 codon_list[0] == codon_list[3]
@@ -544,24 +449,42 @@ codon_list[0] == codon_list[3]
 
 
 
+While we could go through the trouble of building a table of codon to amino acid values, we are not the first people to think of this.
+
+One of the greatest strengths in Python is the large number of packages and modules that can answer questions we have. This becomes a problem if your desire is to write code no one else has done before, but that is outside the scope of this lesson.
+
+[`Biopython`](https://biopython.org/) is an amazing package with a lot of the fundamental tools for handling bioinformatic data. It isn't great for everything, but it has good fundamentals. In the previous [Anaconda](anaconda.md) section we made an environment that had Biopython installed, now we can load it with:
+
 
 ```python
 from Bio import Seq
 ```
 
+The `Seq` module in the `Bio` (Biopython) package is really a **class** object that can have **methods** applied to it. For more information type `help(Seq)`.
+
+We can define `codon_1` as a `Seq` object with the property of it's `Seq` being the 0th string in the codon list.
+
 
 ```python
 codon_1 = Seq.Seq(codon_list[0])
-amino_acid_1 = codon_1.translate()
-type(codon_1), codon_1, amino_acid_1
+type(codon_1), codon_1
 ```
 
 
 
 
-    (Bio.Seq.Seq, Seq('AAA'), Seq('K'))
+    (Bio.Seq.Seq, Seq('AAA'))
 
 
+
+The codon object can be translated into it's amino acid using the `.translate()` method.
+
+
+```python
+amino_acid_1 = codon_1.translate()
+```
+
+Resulting in objects `codon_1` and `amino_acid_1`.
 
 
 ```python
@@ -574,6 +497,8 @@ str(codon_1), str(amino_acid_1)
     ('AAA', 'K')
 
 
+
+This can be done again with the 3rd codon.
 
 
 ```python
@@ -589,6 +514,8 @@ str(codon_2), str(amino_acid_2)
 
 
 
+Again we confirm the codons are different.
+
 
 ```python
 str(codon_1) == str(codon_2)
@@ -600,6 +527,8 @@ str(codon_1) == str(codon_2)
     False
 
 
+
+But we see that the amino acids are the same!
 
 
 ```python
@@ -613,17 +542,26 @@ str(amino_acid_1) == str(amino_acid_2)
 
 
 
-# I/O 
+One can imagine this can be applied at a higher level for translating great unknown sequences from metagenomic data, or calculating dN/dS ratios from Coronavirus populations. These packages may already be out there. But use these tools to play with data and ideas and who knows what you will discover!
+
+### I/O 
+
+While the function we have made for creating amino acids is useful and quick, it does not exist outside of this notebook. To save this data we can use the `write` method after opening a new file with the `open` function.
 
 
 ```python
-# Want to save codon_list to a file
+# Open a new file to write to with the 'w' flag
 with open('../data/codon_list.txt', 'w') as f:
+    # Loop through codons
     for codon in codon_list:
+        # Write the codon
         f.write(codon)
         f.write('\n')
+    # Always good to close files to prevent memory leaks
     f.close()
 ```
+
+We can use the `open` function with the read `r` flag to now open the file.
 
 
 ```python
@@ -644,6 +582,8 @@ new_codon_list[:5]
     ['AAA\n', 'AAT\n', 'AAC\n', 'AAG\n', 'ATA\n']
 
 
+
+However the `newline` character is read in as well, even if we don't see it in the file. We can remove it with the `strip` method.
 
 
 ```python
@@ -666,12 +606,16 @@ new_codon_list[:5]
 
 
 
-# Scientific computation
+## Scientific computation
+
+A cornerstone of bioinformatics is quantitative analysis. `Numpy`, amongst `Scipy`, `Sklearn`, `Matplotlib`, `Seaborn`, and `Pandas`, serves as the bedrock for efficent, reproducible code.
 
 
 ```python
 import numpy as np
 ```
+
+Remember we defined our first variable `a`, a list.
 
 
 ```python
@@ -684,6 +628,8 @@ a
     [1, 2, 3]
 
 
+
+`Numpy` arrays are like lists, but with linear algebra capability. Lists can be converted to arrays:
 
 
 ```python
@@ -698,6 +644,8 @@ a_np
 
 
 
+With a list if we multiple it 3 times, we make 3 copies.
+
 
 ```python
 a * 3
@@ -709,6 +657,8 @@ a * 3
     [1, 2, 3, 1, 2, 3, 1, 2, 3]
 
 
+
+With an array if we multiple it 3 times, we multiple each value by 3.
 
 
 ```python
@@ -722,6 +672,14 @@ a_np * 3
 
 
 
+A much deeper dive into the full linear algebra capabilities is out of the scope of this lesson, but truly it is one of the best methods for performing these computations.
+
+### Randomness
+
+Of the many modules in `Numpy` is it's random number generator. Endless mathematicians have been fascinated by randomness, and it plays an important part in biology as well. 
+
+With the `random` module we can get a random number between 0 and 1 easily:
+
 
 ```python
 np.random.random()
@@ -730,9 +688,11 @@ np.random.random()
 
 
 
-    0.2054575996944128
+    0.308979932712822
 
 
+
+For that matter we can get 5!
 
 
 ```python
@@ -742,107 +702,13 @@ np.random.random(5)
 
 
 
-    array([0.21256245, 0.44389484, 0.86496341, 0.74561284, 0.31873175])
+    array([0.87015478, 0.5240611 , 0.43159515, 0.8005946 , 0.41942209])
 
 
 
+We can also sample a bionomial distribution.
 
-```python
-help(np.random.binomial)
-```
-
-    Help on method binomial in module numpy.random:
-    
-    binomial(n, p, size=None) method of numpy.random.mtrand.RandomState instance
-        binomial(n, p, size=None)
-        
-        Draw samples from a binomial distribution.
-        
-        Samples are drawn from a binomial distribution with specified
-        parameters, n trials and p probability of success where
-        n an integer >= 0 and p is in the interval [0,1]. (n may be
-        input as a float, but it is truncated to an integer in use)
-        
-        .. note::
-            New code should use the `~numpy.random.Generator.binomial`
-            method of a `~numpy.random.Generator` instance instead;
-            please see the :ref:`random-quick-start`.
-        
-        Parameters
-        ----------
-        n : int or array_like of ints
-            Parameter of the distribution, >= 0. Floats are also accepted,
-            but they will be truncated to integers.
-        p : float or array_like of floats
-            Parameter of the distribution, >= 0 and <=1.
-        size : int or tuple of ints, optional
-            Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
-            ``m * n * k`` samples are drawn.  If size is ``None`` (default),
-            a single value is returned if ``n`` and ``p`` are both scalars.
-            Otherwise, ``np.broadcast(n, p).size`` samples are drawn.
-        
-        Returns
-        -------
-        out : ndarray or scalar
-            Drawn samples from the parameterized binomial distribution, where
-            each sample is equal to the number of successes over the n trials.
-        
-        See Also
-        --------
-        scipy.stats.binom : probability density function, distribution or
-            cumulative density function, etc.
-        random.Generator.binomial: which should be used for new code.
-        
-        Notes
-        -----
-        The probability mass function (PMF) for the binomial distribution is
-        
-        .. math:: P(N) = \binom{n}{N}p^N(1-p)^{n-N},
-        
-        where :math:`n` is the number of trials, :math:`p` is the probability
-        of success, and :math:`N` is the number of successes.
-        
-        When estimating the standard error of a proportion in a population by
-        using a random sample, the normal distribution works well unless the
-        product p*n <=5, where p = population proportion estimate, and n =
-        number of samples, in which case the binomial distribution is used
-        instead. For example, a sample of 15 people shows 4 who are left
-        handed, and 11 who are right handed. Then p = 4/15 = 27%. 0.27*15 = 4,
-        so the binomial distribution should be used in this case.
-        
-        References
-        ----------
-        .. [1] Dalgaard, Peter, "Introductory Statistics with R",
-               Springer-Verlag, 2002.
-        .. [2] Glantz, Stanton A. "Primer of Biostatistics.", McGraw-Hill,
-               Fifth Edition, 2002.
-        .. [3] Lentner, Marvin, "Elementary Applied Statistics", Bogden
-               and Quigley, 1972.
-        .. [4] Weisstein, Eric W. "Binomial Distribution." From MathWorld--A
-               Wolfram Web Resource.
-               https://mathworld.wolfram.com/BinomialDistribution.html
-        .. [5] Wikipedia, "Binomial distribution",
-               https://en.wikipedia.org/wiki/Binomial_distribution
-        
-        Examples
-        --------
-        Draw samples from the distribution:
-        
-        >>> n, p = 10, .5  # number of trials, probability of each trial
-        >>> s = np.random.binomial(n, p, 1000)
-        # result of flipping a coin 10 times, tested 1000 times.
-        
-        A real world example. A company drills 9 wild-cat oil exploration
-        wells, each with an estimated probability of success of 0.1. All nine
-        wells fail. What is the probability of that happening?
-        
-        Let's do 20,000 trials of the model, and count the number that
-        generate zero positive results.
-        
-        >>> sum(np.random.binomial(9, 0.1, 20000) == 0)/20000.
-        # answer = 0.38885, or 38%.
-    
-
+Suppose we wanted to simulate flipping a fair (50%) coin (don't dive too deep into what is a [fair coin](https://arxiv.org/abs/2310.04153)). We can use the `binomial` function 100 times for a value of 1 (heads) or 0 (tails).
 
 
 ```python
@@ -853,13 +719,15 @@ fair_coin
 
 
 
-    array([1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0,
-           1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0,
-           1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
-           1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1,
-           1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1])
+    array([0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1,
+           1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1,
+           1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1,
+           0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+           0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0])
 
 
+
+We can easily get the number of heads by getting a sum of the 1s, and subtracting from the total number of flips.
 
 
 ```python
@@ -871,14 +739,18 @@ heads_count, tails_count
 
 
 
-    (np.int64(54), np.int64(46))
+    (np.int64(62), np.int64(38))
 
 
+
+This is nice, but there is a limit of how many lists and tables we would want to present. `Matplotlib` is a wonderful and endlessly customizable package for plotting data.
 
 
 ```python
 import matplotlib.pyplot as plt
 ```
+
+Using the function `bar` to create a barplot.
 
 
 ```python
@@ -894,9 +766,11 @@ plt.bar([0, 1], [tails_count, heads_count])
 
 
     
-![png](python_intro_files/python_intro_89_1.png)
+![png](python_intro_files/python_intro_115_1.png)
     
 
+
+Again that is nice, but not a figure we would see in Nature. Let's add some fun color, label our axes, and give a title.
 
 
 ```python
@@ -910,11 +784,15 @@ plt.savefig('coin_flip_figure.png')
 
 
     
-![png](python_intro_files/python_intro_90_0.png)
+![png](python_intro_files/python_intro_117_0.png)
     
 
 
-# Pandas-seaborn
+That looks better!
+
+## Pandas-seaborn
+
+Suppose we want to simulate a fair (50% heads) and unfair (75% heads) coins. We can make a second list of unfair coins and compare.
 
 
 ```python
@@ -924,93 +802,488 @@ fair_coin
 
 
 
-    array([1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0,
-           1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0,
-           1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
-           1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1,
-           1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1])
+    array([0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1,
+           1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1,
+           1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1,
+           0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+           0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0])
 
 
 
 
 ```python
 unfair_coin = np.random.binomial(n=1, p=.75, size=100)
+unfair_coin
 ```
+
+
+
+
+    array([1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0,
+           0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,
+           1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1,
+           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+
+
+
+Keeping track of two separate data sets is hard, let's use the principle of tidy data and `Pandas` to combine the data into a readable DataFrame.
 
 
 ```python
 import pandas as pd
 ```
 
-
-    ---------------------------------------------------------------------------
-
-    ModuleNotFoundError                       Traceback (most recent call last)
-
-    Cell In[82], line 1
-    ----> 1 import pandas as pd
-
-
-    ModuleNotFoundError: No module named 'pandas'
-
+We can convert the numpy arrays into a DataFrame with each flip annotated.
 
 
 ```python
-fair_coin_df = pd.DataFrame({'observation': fair_coin, 'fair': 'fair'*len(fair_coin)})
+fair_coin_df = pd.DataFrame(
+    {
+        'observation': fair_coin, 
+        'fair': 'fair'
+        }
+    )
 fair_coin_df.head()
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    Cell In[81], line 1
-    ----> 1 pd.DataFrame({'observation': fair_coin, 'fair': 'fair'*len(fair_coin)})
 
 
-    NameError: name 'pd' is not defined
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>observation</th>
+      <th>fair</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+And again to the unfair coin DataFrame
 
 
 ```python
-unfair_coin_df = pd.DataFrame({'observation': unfair_coin, 'fair': 'unfair'*len(unfair_coin)})
+unfair_coin_df = pd.DataFrame(
+    {
+        'observation': unfair_coin, 
+        'fair': 'unfair'
+        }
+    )
+unfair_coin_df.head()
 ```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>observation</th>
+      <th>fair</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>unfair</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>unfair</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>unfair</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>unfair</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>unfair</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+If the columns are the same, DataFrames can be concatenated (just make sure the metadata is there!)
 
 
 ```python
-coin_df = pd.concat([fair_coin, unfair_coin])
+coin_df = pd.concat([fair_coin_df, unfair_coin_df])
 ```
+
+The `.info()` method retuns the information about the DataFrame.
 
 
 ```python
 coin_df.info()
 ```
 
+    <class 'pandas.DataFrame'>
+    Index: 200 entries, 0 to 99
+    Data columns (total 2 columns):
+     #   Column       Non-Null Count  Dtype
+    ---  ------       --------------  -----
+     0   observation  200 non-null    int64
+     1   fair         200 non-null    str  
+    dtypes: int64(1), str(1)
+    memory usage: 4.7 KB
+
+
+Just like arrays, lists, and strings, we can slice out which values we want.
+
 
 ```python
-coin_df['observation']
+coin_df[coin_df['fair'] == 'fair'].head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>observation</th>
+      <th>fair</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Or get summary values quickly.
+
+
+```python
+coin_df.groupby(['observation', 'fair']).sum()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>observation</th>
+      <th>fair</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">0</th>
+      <th>fair</th>
+    </tr>
+    <tr>
+      <th>unfair</th>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th>fair</th>
+    </tr>
+    <tr>
+      <th>unfair</th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+`Pandas` works well with the package `Seaborn`, which creates beautiful figures easily.
+
+
+```python
+import seaborn as sns
 ```
 
 
 ```python
-coin_df[coin_df['fair'] == 'fair']
+outcome_dict = {1: 'heads', 0: 'tails'}
+coin_df['outcome'] = [outcome_dict[x] for x in coin_df['observation']]
+coin_df.head()
 ```
 
 
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>observation</th>
+      <th>fair</th>
+      <th>outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>fair</td>
+      <td>tails</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>fair</td>
+      <td>heads</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>fair</td>
+      <td>tails</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>fair</td>
+      <td>heads</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>fair</td>
+      <td>tails</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
 ```python
-coin_df.groupby(['observation', 'fair']).count()
+coin_df.groupby(['outcome', 'fair']).count().reset_index()
 ```
 
 
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>outcome</th>
+      <th>fair</th>
+      <th>observation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>heads</td>
+      <td>fair</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>heads</td>
+      <td>unfair</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>tails</td>
+      <td>fair</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>tails</td>
+      <td>unfair</td>
+      <td>24</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
 ```python
-pd.barplot(
-    data = coin_df,
-    x = 'observation',
-    hue = 'fair',
+sns.barplot(
+    data = coin_df.groupby(['outcome', 'fair']).count().reset_index(),
+    y = 'observation',
+    hue = 'outcome',
+    x = 'fair',
     palette = 'Set1'
 )
+plt.title('Outcome of randomly flipping two coins')
 ```
+
+
+
+
+    Text(0.5, 1.0, 'Outcome of randomly flipping two coins')
+
+
+
+
+    
+![png](python_intro_files/python_intro_141_1.png)
+    
+
+
+And we can easily save and read our data in .csv format easily and quickly.
 
 
 ```python
@@ -1023,22 +1296,59 @@ coin_df = pd.read_csv('../data/coin_data.csv')
 coin_df.head()
 ```
 
-# Pull down data
 
 
-```python
-!wget -O /data/CARD_singlecell/users/catchingba/VSCode/data/8e3a.cif https://files.rcsb.org/download/8e3a.cif
-```
 
-    --2026-02-10 10:00:10--  https://files.rcsb.org/download/8e3a.cif
-    Resolving dtn20-e0 (dtn20-e0)... 10.1.200.74
-    Connecting to dtn20-e0 (dtn20-e0)|10.1.200.74|:3128... connected.
-    Proxy request sent, awaiting response... 200 OK
-    Length: unspecified [chemical/x-cif]
-    Saving to: ‘/data/CARD_singlecell/users/catchingba/VSCode/data/8e3a.cif’
-    
-    /data/CARD_singlece     [ <=>                ] 727.10K  --.-KB/s    in 0.1s    
-    
-    2026-02-10 10:00:10 (6.13 MB/s) - ‘/data/CARD_singlecell/users/catchingba/VSCode/data/8e3a.cif’ saved [744552]
-    
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>observation</th>
+      <th>fair</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>fair</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>fair</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
