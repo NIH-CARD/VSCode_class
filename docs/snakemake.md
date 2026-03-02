@@ -56,9 +56,84 @@ Given a program called `program_name` that has been previously installed, the in
 ```
 snakemake -np output_file_1
 ```
- Running the bash script will subsequently run the script and be done once the results is created.
 
+Running the bash script will subsequently run the script and be done once the results is created.
+
+For ease and portability, it is best to have the directory you are working in explicitly defined. This is done by adding the line
+
+`work_dir = '/path/to/project'`
+
+Our rule then looks like:
+
+```
+rule example_rule:
+    input:
+        input_file_1 = work_dir+"/file",
+        input_file_2 = work_dir+"/other_file"
+    output:
+        output_file_1 = work_dir+"/output_file"
+    shell:
+        'program_name --input {input.input_file_1} --output {output.output_file_1}'
+```
 
 ## Add a python script
 
+As we played around in the [python session](python_intro.md), we can turn quick Python lines of code into stand-alone scripts. In this case we use the `return_codon.py` script. We define the rule as `return_codon` which gives two text files of outputs (Snakemake rules must read in and read out files).
+
+```
+rule return_codon:
+    params:
+        nucs = ['A', 'T', 'C', 'G'],
+        ith_slice = 9
+    output:
+        special_codon = work_dir+'/data/codon_list.txt',
+        amino_acid_file = work_dir+'/data/amino_acid.txt'
+    singularity:
+        'envs/my_first_singularity.sif'
+    script:
+        work_dir+'/scripts/return_codon.py'
+```
+
+File names and parameters are read in via Snakemake to the script as:
+
+```
+from Bio import Seq
+
+# Define nucleotides
+nucs = snakemake.params.nucs
+
+codon_list = []
+for first_nuc in nucs:
+    for second_nuc in nucs:
+        for third_nuc in nucs:
+            codon_list.append(first_nuc + second_nuc + third_nuc)
+
+# Define the location of the slice
+ith_slice = int(snakemake.params.ith_slice)
+
+with open(snakemake.output.special_codon, 'w') as f:
+    f.write(codon_list[ith_slice])
+    f.write('\n')
+    f.close()
+
+with open(snakemake.output.amino_acid_file, 'w') as f:
+    f.write(Seq.Seq(codon_list[ith_slice]).translate())
+    f.close()
+```
+
+This is why we name our input and output files, so `snakemake.input` can differentiate between different files. Parameters can be read in as lists or strings, but should not be used in place of input and output files. Again, Snakemake requires the presence of each file to know which scripts to run.
+
 ## Rule `all`
+
+We could make sure this last script runs by adding `snakemake -np data/amino_acid.txt` to `snakemake.sh`. Or, for simplicity, we can use the special rule `all`.
+
+The input of the `all` rule will always be created when run by Snakemake. This can be useful when multiple outputs are required, or a single rule ran many times. If we wanted the output of both rules we would add:
+
+```
+rule all:
+    input:
+        amino_acid_file = work_dir+'/data/amino_acid.txt',
+        output_file_1 = work_dir+"/output_file"
+```
+
+This adds simplicity as the working directory doesn't need to be added outside of the `snakefile`.
