@@ -1,6 +1,6 @@
 # VSCode
 
-<img src="images/VSCode.jpeg" alt="VSCode" width="50%"/>
+![VSCode](images/VSCode.jpeg)
 
 All that is required for coding is a text editor and some form of a compiler/kernel to run the code. Back in the day, most folks used VIM/EMACS (VIM being superior) to edit their code and compiled/ran that code in terminal. This creates a lot of moving parts, and why most people use Integrated Development Environments (IDEs). VSCode is one of the most up to date IDEs available on Biowulf, and includes a great amount of optionality including:
 
