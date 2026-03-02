@@ -84,7 +84,7 @@ As we played around in the [python session](python_intro.md), we can turn quick 
 rule return_codon:
     params:
         nucs = ['A', 'T', 'C', 'G'],
-        ith_slice = 9
+        i = 9
     output:
         special_codon = work_dir+'/data/codon_list.txt',
         amino_acid_file = work_dir+'/data/amino_acid.txt'
@@ -109,15 +109,15 @@ for first_nuc in nucs:
             codon_list.append(first_nuc + second_nuc + third_nuc)
 
 # Define the location of the slice
-ith_slice = int(snakemake.params.ith_slice)
+ith_slice = int(snakemake.params.i)
 
 with open(snakemake.output.special_codon, 'w') as f:
-    f.write(codon_list[ith_slice])
+    f.write(codon_list[i])
     f.write('\n')
     f.close()
 
 with open(snakemake.output.amino_acid_file, 'w') as f:
-    f.write(Seq.Seq(codon_list[ith_slice]).translate())
+    f.write(Seq.Seq(codon_list[i]).translate())
     f.close()
 ```
 
@@ -137,3 +137,24 @@ rule all:
 ```
 
 This adds simplicity as the working directory doesn't need to be added outside of the `snakefile`.
+
+## Wildcards
+
+Wildcards propagate a parameter through multiple rules until the final rule is satisfied. Instead of writing the rule each time we need, we can make use of wildcards.
+
+Suppose we don't want to just find the 9th codon, but for some reason we want the 9th, 11th, and 13th. First we can make the name of the output file reflects which codon is being sliced out:
+
+```
+rule return_codon:
+    params:
+        nucs = ['A', 'T', 'C', 'G'],
+        i = lambda wildcards, output: output[0].split("_")[-2]
+    output:
+        special_codon = work_dir+'/data/codon_list_{i}_slice.txt',
+        amino_acid_file = work_dir+'/data/amino_acid_{i}_slice.txt'
+    singularity:
+        'envs/my_first_singularity.sif'
+    script:
+        work_dir+'/scripts/return_codon.py'
+```
+

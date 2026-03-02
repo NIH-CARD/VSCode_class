@@ -13,13 +13,13 @@ for first_nuc in nucs:
             codon_list.append(first_nuc + second_nuc + third_nuc)
 
 # Define the location of the slice
-ith_slice = int(snakemake.params.ith_slice)
+ith_slice = int(snakemake.params.i)
 
 with open(snakemake.output.special_codon, 'w') as f:
-    f.write(codon_list[ith_slice])
+    f.write(codon_list[i])
     f.write('\n')
     f.close()
 
 with open(snakemake.output.amino_acid_file, 'w') as f:
-    f.write(Seq.Seq(codon_list[ith_slice]).translate())
+    f.write(Seq.Seq(codon_list[i]).translate())
     f.close()
