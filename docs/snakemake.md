@@ -16,6 +16,29 @@ Here is an example snakemake.sh script
 
 ## Start a new `snakefile`
 
+Creating a pipeline can seem daunting when looking at completed pipelines as an example. But they all start with the first rule, which takes the raw data and performa the first step. For sequence data this can be converting raw bcls or squiggles into fastqs, or for simulations setting up the system. 
+
+Fundamentally, each rule is a step that take an input file somewhere, reads it in, processes it, and returns an output file: 
+
+```
+rule example_rule:
+    input:
+        input_file_1 = "path/to/some/file",
+        input_file_2 = "path/to/some/other_file"
+    output:
+        output_file_1 = "output/file/path"
+    shell:
+        'program_name --input {input.input_file_1} --output {output.output_file_1}'
+```
+
+Given a program called `program_name` that has been previously installed, the input path is piped via `input.input_file_1` and computes `output.output_file_1`. In the `snakrmake.sh` script the last line will then read:
+
+```
+snakemake -np output_file_1
+```
+ Running the bash script will subsequently run the script and be done once the results is created.
+
+
 ## Add a python script
 
 ## Rule `all`
