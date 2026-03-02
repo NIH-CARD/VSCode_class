@@ -109,7 +109,12 @@ Congrats! You have authored your first commit. Now let's share it with the world
 
 ## Push changes
 
-Pushing and pulling changes from GitHub to your local device is always easier if you are consistent and remember to commit each time you make a change. Pushing a change to GitHub is easy once all changes have been made
+Pushing and pulling changes from GitHub to your local device is always easier if you are consistent and remember to commit each time you make a change. Pushing a change to GitHub is easy once all changes have been made, the commit button will change to "Sync Changes" with an up arrow indicating how many changes you are adding and a down arrow with a number indicating how many changes you will receive. Making changes from many machines and now updating after each change will result in conflicting pull/pushes, which will require you to go line by line on which changes are correct. 
+
+Do the smart thing. Commit your change as soon as it feels like a distinct chunk, and pull from GitHub any possible changes before making new changes.
 
 ## Add a branch
 
+All of this work has been on the branch called `main`. If you are the only one using this repository, this is generally ok. But if you are working with others, which is where GitHub shines, changes should be tracked on separate branches. 
+
+Creating a branch is easy, go to "Source control", click on the three dots next **Changes**, where there should be a dropdown menu with options "Push", "Pull", "Clone",... "Branch". Click on "Branch", and select "Create Branch". Give the branch a name to indicate its not quite ready for production (I typically go with "dev"). Now click on the three dots next to **Changes** again, this time going to "Checkout to...". A dropdown list of branches, including "main" and "dev" should appear. Click on "dev". Now commits will show up on the "dev" branch". 
