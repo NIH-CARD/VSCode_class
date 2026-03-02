@@ -1,6 +1,10 @@
 # Define our directory
 work_dir = '/data/catchingba/VSCode_class'
 
+rule all:
+    input:
+        all_codons = work_dir+'/data/codon_list_all.txt'
+
 rule fastqc:
     input:
         input_dir = work_dir+'/data/fastq'

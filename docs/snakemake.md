@@ -158,3 +158,39 @@ rule return_codon:
         work_dir+'/scripts/return_codon.py'
 ```
 
+In addition, the parameter `i` now is taken from the output name file via a [lambda function](https://docs.python.org/2/tutorial/controlflow.html). Now whatever the name of the output file is in turn used as a parameter in our Python script. 
+
+To run our script on all three codons, we can make a new rule that concatenates files using the bash [`cat` function](https://en.wikipedia.org/wiki/Cat_(Unix)):
+
+```
+rule concat_codons:
+    input:
+        special_codon = expand(
+            work_dir+'/data/codon_list_{i}.txt',
+            i = [9, 11, 13]
+            )
+    output:
+        all_codons = work_dir+'/data/codon_list_all.txt'
+    shell:
+        """
+        cat special_codon > all_codons
+        """
+```
+
+The function `expand` is extremely useful; it returns a list of files where the list of values after the string are fed into the wildcard location of the string. In this case this would result:
+
+> special_codon =[work_dir+'/data/codon_list_**9**.txt', work_dir+'/data/codon_list_**11**.txt', work_dir+'/data/codon_list_**13**.txt']
+
+The output of this rule can be fed into the rule all now:
+
+```
+rule all:
+    input:
+        all_codons = work_dir+'/data/codon_list_all.txt'
+```
+
+The rules `return_codon` would run once for each value of `i`, and once all the output files are created `concat_codons` would run, followed by rule `all` finalizing once it's input has been satisfied.
+
+## Use cases
+
+There are many more additions to Snakemake to improve useability (config files, using GPU resources, modularization) but these tend to be more use-case dependent. This is a good starting place to start converting code into a trackable format which allows for interoperability and reproducibility.
