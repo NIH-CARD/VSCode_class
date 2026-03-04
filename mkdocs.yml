@@ -14,3 +14,4 @@ nav:
   - 5. GitHub: github.md
   - 6. Snakemake: snakemake.md
   - 7. Singularity: singularity_page.md
+  - 8. SSH: ssh.md
