@@ -23,3 +23,4 @@ As publically funded researchers, we have an obligation for our results to be as
 5. [GitHub](github.md) 
 6. [Snakemake](snakemake.md) 
 7. [Singularity](singularity_page.md) 
+8. [SSH](ssh.md) 
