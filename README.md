@@ -22,3 +22,5 @@ As publically funded researchers, we have an obligation for our results to be as
 5. [GitHub](docs/github.md) 
 6. [Snakemake](docs/snakemake.md) 
 7. [Singularity](docs/singularity_page.md) 
+8. [SSH](docs/ssh.md) 
+

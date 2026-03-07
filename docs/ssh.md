@@ -1,0 +1,149 @@
+# SSH
+
+## Background
+
+The [SSH (Secure Shell Protocol)](https://www.ssh.com/academy/ssh/protocol) is a way of communicating with remote servers when logging in or transferring files. It provides secure connection by working like key-lock.
+One of the most essential uses is to authenticate your account on public sites/servers. In this demo, you'll learn a straightforward way to create/utilize an SSH key for authentication based on
+[the documentation from GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh) on Linux. Details about other operating systems are found on GitHub.
+
+## Where's my SSH key? 
+
+On a Linux machine, the location of SSH keys is `~/.ssh`. Check whether you have any keys previously created through the command `cd ~/.ssh`. What kind of keys do you have? `ls` will show you a list of keys that are
+currently present.
+
+```bash
+$ cd ~/.ssh
+$ ls
+authorized_keys  id_rsa  id_rsa.pub  known_hosts
+```
+
+I see a pair of public (`id_rsa.pub`) and private (`id_rsa`) keys. The `cat` command shows what your keys look like:
+
+```bash
+# What does your public key look like?
+$ cat id_rsa.pub
+ssh-rsa AAAAC3NzaC1lZDI1NTE5AAAAIHhPPIqNSZHUwUfNOPRNXquHqbKzZrppQsMGSy6V1PDo myemail@email.com
+# What does your private key look like?
+$ cat id_rsa
+-----BEGIN RSA PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACB4TzyKjUmR1MFHzTj0TV6rh6mys2a6aULDBksuldTw6AAAAKBnTMo2Z0zK
+NgAAAAtzc2gtZWQyNTUxOQAAACB4TzyKjUmR1MFHzTj0TV6rh6mys2a6aULDBksuldTw6A
+AAAEDXntdxX5CHDszf8zwg73jwpDKa3EAzd6ElvmPPT3owrXhPPIqNSZHUwUfNOPRNXquH
+qbKzZrppQsMGSy6V1PDoAAAAFnlvdXJfZW1haWxAZXhhbXBsZS5jb20BAgMEBQYH
+-----END RSA PRIVATE KEY-----
+```
+
+You have a long string consisting of upper and lower letters, which is referred to as a _fingerprint_. Why are they a pair? Think of them as a physical key and a lock. Your private key (e.g. `id_rsa`) is like your personal 
+house key. It must be kept secret and stored securely on your local machine, accessible only by you. In contrast, your public key (e.g. `id_rsa.pub`) is like a lock. You can place this lock on any remove service you 
+want to access, such as [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) or [NIH HPC](https://hpc.nih.gov/docs/sshkeys.html). When you connect,
+The service uses your public key (the lock) to verify your private key (the key) for authentication.
+
+How do I create a pair of SSH keys?
+
+## Creating a new SSH key
+
+The command `ssh-keygen` is used to create SSH keys. Explore the command via `ssh-keygen --help`.
+
+```bash
+$ ssh-keygen --help
+unknown option -- -
+usage: ssh-keygen [-q] [-b bits] [-t dsa | ecdsa | ed25519 | rsa | rsa1]
+                  [-N new_passphrase] [-C comment] [-f output_keyfile]
+ssh-keygen -p [-P old_passphrase] [-N new_passphrase] [-f keyfile]
+ssh-keygen -i [-m key_format] [-f input_keyfile]
+ssh-keygen -e [-m key_format] [-f input_keyfile]
+ssh-keygen -y [-f input_keyfile]
+ssh-keygen -c [-P passphrase] [-C comment] [-f keyfile]
+ssh-keygen -l [-v] [-E fingerprint_hash] [-f input_keyfile]
+ssh-keygen -B [-f input_keyfile]
+ssh-keygen -D pkcs11
+ssh-keygen -F hostname [-f known_hosts_file] [-l]
+ssh-keygen -H [-f known_hosts_file]
+ssh-keygen -R hostname [-f known_hosts_file]
+ssh-keygen -r hostname [-f input_keyfile] [-g]
+ssh-keygen -G output_file [-v] [-b bits] [-M memory] [-S start_point]
+ssh-keygen -T output_file -f input_file [-v] [-a rounds] [-J num_lines]
+          [-j start_line] [-K checkpt] [-W generator]
+ssh-keygen -s ca_key -I certificate_identity [-h] [-n principals]
+          [-O option] [-V validity_interval] [-z serial_number] file ...
+ssh-keygen -L [-f input_keyfile]
+ssh-keygen -A
+ssh-keygen -k -f krl_file [-u] [-s ca_public] [-z version_number]
+          file ...
+ssh-keygen -Q -f krl_file file ...
+```
+
+The `-t` flag is used to configure the type of SSH key. There are 5 different key options available: `[-t dsa | ecdsa | ed25519 | rsa | rsa1]`. However, your SSH client may limit the available options.
+
+Let's create your SSH key by following the [guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key). Assume
+you're still in `~/.ssh`.
+
+```bash
+~/.ssh$ ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+Running this command returns further options below:
+
+```bash
+enerating public/private ed25519 key pair.
+Enter file in which to save the key (/home/user/.ssh/id_ed25519):   # <Press enter to skip>
+Enter passphrase (empty for no passphrase):                          # <Optional. Enter to skip>
+Enter same passphrase again:                                         # <Optional. Enter to skip>
+```
+
+The following messages appear after you successfully created keys:
+
+```bash
+Your identification has been saved in /home/user/.ssh/id_ed25519.
+Your public key has been saved in /home/user/.ssh/id_ed25519.pub.
+The key fingerprint is:
+SHA256:EiZiWkseuxScabC3szzySZ1LOBFpBAu+chyK4KSOjYY your_email@example.com
+The key's randomart image is:
++--[ED25519 256]--+
+|+..              |
+|o* +             |
+|+o^ . o          |
+|*%.X o .         |
+|*o@   . S        |
+|=* B . .         |
+|EoX +            |
+|.+ = .           |
+|  o .            |
++----[SHA256]-----+
+```
+
+Now you see new keys added to the `~/.ssh` directory:
+
+```bash
+~/.ssh$ ls
+authorized_keys  id_ed25519  id_ed25519.pub  id_rsa  id_rsa.pub  known_hosts
+```
+
+* private key: `id_ed25519`
+* public key: `id_ed25519.pub`
+
+## SSH authentication
+
+Now it's time to use your new SSH keys to authenticate your account on GitHub. **Ensure your public key's email address matches your GitHub email.**
+
+```bash
+# If your key option is ed25519
+~/.ssh$ cat id_ed25519.pub
+ssh-ed25519 <fingerprint> your_email@example.com
+
+# If your key option is RSA
+~/.ssh$ cat id_rsa.pub
+ssh-rsa <fingerprint> your_email@example.com
+```
+
+Navigate to the _SSH and GPG keys_ page in your _Settings_.
+
+![SSH and GPG keys page](images/github_ssh.png)
+
+Click the _New SSH key_ button.
+
+![New SSH key page](images/github_ssh2.png)
+
+
+Paste your entire public key (e.g. `ssh-ed25519 <fingerprint> your_email@example.com`) to the _Key_ field. Add a descriptive label to the _Title_ field.
