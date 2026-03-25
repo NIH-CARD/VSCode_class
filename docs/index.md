@@ -24,3 +24,4 @@ As publically funded researchers, we have an obligation for our results to be as
 6. [Snakemake](snakemake.md) 
 7. [Singularity](singularity_page.md) 
 8. [SSH](ssh.md) 
+9. [OpenAI Codex](codex.md) 
