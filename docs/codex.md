@@ -105,25 +105,118 @@ suggested by OpenAI. If none of the approaches work, consult with HPC
 
 Once your `~/.codex/auth.json` file has been copied, you do not need 
 to take any additional steps to authenticate on Biowulf. Proceed by allocating
-an interactive node with a GPU.
+an interactive node with the necessary computational resources.
 
 ```bash
-[USER@biowulf]$ sinteractive --cpus-per-task=2 --mem=10g --gres=lscratch:5,gpu:v100x:1
+[USER@biowulf]$ sinteractive --cpus-per-task=2 --mem=10g --gres=lscratch:5
 ```
+
+If you use VSCode through [HPC OnDemand (login required)](https://hpcondemand.nih.gov/),
+start your session, as shown in the following screenshot:
+
+![ondemand vscode](images/ondemand_vscode.png)
+
+If you are unfamiliar with using VSCode on Biowulf, visit 
+the [VS Code on Biowulf](https://hpc.nih.gov/apps/vscode.html) page 
 
 Call the `freen` command if you need more information about resource (node) 
 availability on Biowulf. Refer to the 
 [Biowulf Cheat Sheet](https://hpc.nih.gov/docs/biowulf-cheat-sheet.pdf) for detailed
 information about parameter settings.
 
-In practice, you should start Codex from the directory you want to limit Codex's access.
-That usually means a directory tree that is safe for Codex to inspect and modify.
-Avoid launching it from a broad or sensitive location unless you intend to give it 
-access to those files and you accept unintended changes to your files.
+## Start
 
+### Terminal
+
+Start Codex from the project directory you want it to work in, typically the
+root of a repository or analysis folder. This sets Codex's initial working
+scope, so avoid launching it from broad or sensitive locations such as your
+home directory, shared top-level lab directories, or any location containing
+files you do not want it to inspect or modify.
+
+If possible, use Codex in a version-controlled project or a copy of the files
+so you can review and revert changes if needed.
+
+Now launch Codex in your terminal, as demonstrated below:
 
 ```bash
+# Move to the project directory where you want Codex to work
 [USER@cn0001]$ cd /<path>/<lab>/<project>
-[USER@cn0001] /<path>/<lab>/<project>$ codex
+
+# Activate the Conda environment where Codex is installed
 [USER@cn0001] /<path>/<lab>/<project>$ conda activate codex
+
+# Start Codex in terminal
+(codex) [USER@cn0001] /<path>/<lab>/<project>$ codex
+
+> You are in /<path>/<lab>/<project>
+
+  Do you trust the contents of this directory? Working with untrusted contents comes with higher risk of prompt injection.
+
+› 1. Yes, continue
+  2. No, quit
 ```
+
+On first launch, Codex may offer a newer model. Choose either option to continue.
+
+```bash
+  Introducing GPT-5.4
+
+  Codex just got an upgrade with GPT-5.4, our most capable model for professional work. It outperforms prior models while being more token efficient, with notable improvements on long-running tasks, tool calling, computer use, and
+  frontend development.
+
+  Learn more: https://openai.com/index/introducing-gpt-5-4
+
+  You can always keep using GPT-5.3-Codex if you prefer.
+
+  Choose how you'd like Codex to proceed.
+
+› 1. Try new model
+  2. Use existing model
+
+  Use ↑/↓ to move, press enter to confirm
+```
+
+After the startup prompts, Codex opens in the selected project directory and is ready to accept requests.
+
+```bash
+╭───────────────────────────────────────────────────────────────╮
+│ ✨ Update available! 0.116.0 -> 0.118.0                       │
+│ See https://github.com/openai/codex for installation options. │
+│                                                               │
+│ See full release notes:                                       │
+│ https://github.com/openai/codex/releases/latest               │
+╰───────────────────────────────────────────────────────────────╯
+
+• Model changed to gpt-5.4 default
+
+╭─────────────────────────────────────────╮
+│ >_ OpenAI Codex (v0.116.0)              │
+│                                         │
+│ model:     gpt-5.4   /model to change   │
+│ directory: /<path>/<lab>/<project>      │
+╰─────────────────────────────────────────╯
+
+  Tip: New Use /fast to enable our fastest inference at 2X plan usage.
+› # Chat here!
+```
+
+### VSCode
+
+You can use Codex in VSCode through the Codex extension on either your local
+computer or a VSCode session started through HPC OnDemand. Begin by opening the
+specific project folder you want Codex to work in, since the open folder defines
+what files Codex can inspect and modify.
+
+Next, open the Codex extension from the VSCode sidebar, as shown below.
+
+![codex sidebar](images/codex_sidebar.png)
+
+Start a new Codex session in that folder, then enter a request in the Codex chat
+panel. 
+
+![work with codex](images/work_with_codex.png)
+
+As with terminal use, it is best to work in a version-controlled project so you
+can inspect, keep, or revert changes as needed.
+
