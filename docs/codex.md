@@ -14,7 +14,8 @@ upgrades, troubleshooting, and removal much simpler than mixing it into an analy
 environment.
 
 On Biowulf, first make sure Conda or Mamba is available in your shell. If you
-have not already configured it, see the [Anaconda](anaconda.md) page for the
+have not already configured it, see the [Anaconda](anaconda.md) and 
+[Conda on Biowulf](https://hpc.nih.gov/docs/diy_installation/conda.html) pages for the
 local setup pattern.
 
 Once Conda is active, create and activate a small environment for Codex:
