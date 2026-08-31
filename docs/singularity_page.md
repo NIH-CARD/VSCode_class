@@ -77,7 +77,7 @@ Load Apptainer:
  `module load apptainer`
 
 Log into Quay.io apptainer:
- `remote login --username USERNAME docker://quay.io`
+ `apptainer remote login --username USERNAME docker://quay.io`
 
 Upload the repository:
  `apptainer push my_first_env.sif oras://quay.io/USERNAME/my_first_env:0.1`
