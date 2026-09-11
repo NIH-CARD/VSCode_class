@@ -1,6 +1,5 @@
 # VSCode, GitHub, and Snakemake: Best practices for high performance scientific computing on Biowulf
 
-
 ## Outline
 
 ### Starting off
@@ -8,6 +7,8 @@
 Computational biology is quickly becoming integral and essential to the field of biomedical science. With big data, machine learning, and everyone building their own packages, coding anything relevant can feel daunting and insurmountable. But the attainable aspect of coding is anyone can work their way to writing advanced and unique code, all that is needed is practice. 
 
 "A journey of a thousand miles begins with a single step" -Laozi
+
+If this tutorial helped you out, please leave a star on the [github page](https://github.com/NIH-CARD/VSCode_class).
 
 ### Motivation 
 
