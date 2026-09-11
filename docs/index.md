@@ -8,7 +8,7 @@ Computational biology is quickly becoming integral and essential to the field of
 
 "A journey of a thousand miles begins with a single step" -Laozi
 
-If this tutorial helped you out, please leave a star on the [github page](https://github.com/NIH-CARD/VSCode_class).
+If this tutorial helped you out, please leave a ⭐ on the [github page](https://github.com/NIH-CARD/VSCode_class).
 
 ### Motivation 
 
