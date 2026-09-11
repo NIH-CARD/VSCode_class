@@ -1,6 +1,10 @@
 # VSCode, GitHub, and Snakemake: Best practices for high performance scientific computing on Biowulf
 
-Stored data for the 2026 class on VSCode, GitHub, Snakemake, and Biowulf. Information is included in the [read the docs](https://vscode-class.readthedocs.io/)
+Stored data for the 2026 class on VSCode, GitHub, Snakemake, and Biowulf. 
+
+Information is included in the [read the docs](https://vscode-class.readthedocs.io/).
+
+If this tutorial helped you out, please leave a star on the [github page](https://vscode-class.readthedocs.io/](https://github.com/NIH-CARD/VSCode_class)).
 
 ### Starting off
 
